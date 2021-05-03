@@ -1,23 +1,20 @@
 Bootstrap: docker
-From: ubuntu:18.04
+From: ubuntu:20.04
 
 %help
 
-    clang-upc-3.9.1-1
 
 %labels
-
     MAINTAINER "Tom Harrop (twharrop@gmail.com)"
-    VERSION "clang-upc-3.9.1-1"
 
 %environment
     export LC_ALL=C
-    export PATH="${PATH}:/usr/local/upcxx/bin:/usr/local/berkeley_upc/bin"
+    export PATH="/masurca/bin:${PATH}"
 
 %post
     export DEBIAN_FRONTEND=noninteractive
     export LC_ALL=C
-    export PATH="${PATH}:/usr/local/upcxx/bin:/usr/local/berkeley_upc/bin"
+    export PATH="/masurca/bin:${PATH}"
 
     # reset apt
     apt-get clean
@@ -42,29 +39,24 @@ _EOF_
     # python-is-python2 on later ubuntus
     apt-get update
     apt-get install -y \
-        automake \
         build-essential \
-        cmake \
         curl \
         git \
-        libopenmpi-dev \
-        python \
         wget \
-        zlib1g-dev
+        zlib1g-dev \
+        libboost-dev \
+        libbz2-dev
 
-    # clang upc
-    mkdir /clang-upc
-    wget -O "/clang-upc.tar.gz" \
+
+    # download masurca
+    mkdir /masurca
+    wget -O "/masurca.tar.gz" \
         --no-check-certificate \
-        https://github.com/Intrepid/clang-upc/releases/download/clang-upc-3.9.1-1/clang-upc-all-3.9.1-1.tar.gz
-    tar -zxf /clang-upc.tar.gz \
-        -C /clang-upc \
+        https://github.com/alekseyzimin/masurca/releases/download/v4.0.3/MaSuRCA-4.0.3.tar.gz
+    tar -zxf /masurca.tar.gz \
+        -C /masurca \
         --strip-components 1
-    rm /clang-upc.tar.gz
-    cd /clang-upc
-    mkdir build
-    cd build || exit 1
-    cmake ..
-    make -j
-    make install
+    rm /masurca.tar.gz
     
+    cd /masurca || exit 1
+    ./install.sh
