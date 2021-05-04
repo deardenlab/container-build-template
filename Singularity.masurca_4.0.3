@@ -59,4 +59,4 @@ _EOF_
     rm /masurca.tar.gz
     
     cd /masurca || exit 1
-    ./install.sh
+    ./install.sh || true    # this fails because of the copy command
