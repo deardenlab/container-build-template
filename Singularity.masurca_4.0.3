@@ -1,11 +1,15 @@
 Bootstrap: docker
 From: ubuntu:20.04
 
-%help
+%runscript
+    exec /masurca/bin/masurca "$@"
 
+%help
+    masurca 4.0.3
 
 %labels
     MAINTAINER "Tom Harrop (twharrop@gmail.com)"
+    VERSION "masurca 4.0.3"
 
 %environment
     export LC_ALL=C
@@ -15,6 +19,8 @@ From: ubuntu:20.04
     export DEBIAN_FRONTEND=noninteractive
     export LC_ALL=C
     export PATH="/masurca/bin:${PATH}"
+
+    exit 0
 
     # reset apt
     apt-get clean
@@ -42,10 +48,10 @@ _EOF_
         build-essential \
         curl \
         git \
-        wget \
-        zlib1g-dev \
         libboost-dev \
-        libbz2-dev
+        libbz2-dev \
+        wget \
+        zlib1g-dev
 
 
     # download masurca
