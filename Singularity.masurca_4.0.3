@@ -2,7 +2,7 @@ Bootstrap: docker
 From: ubuntu:20.04
 
 %runscript
-    exec /masurca/bin/masurca "$@"
+    exec /usr/local/bin/masurca "$@"
 
 %help
     masurca 4.0.3
@@ -13,14 +13,10 @@ From: ubuntu:20.04
 
 %environment
     export LC_ALL=C
-    export PATH="/masurca/bin:${PATH}"
 
 %post
     export DEBIAN_FRONTEND=noninteractive
     export LC_ALL=C
-    export PATH="/masurca/bin:${PATH}"
-
-    exit 0
 
     # reset apt
     apt-get clean
@@ -65,4 +61,7 @@ _EOF_
     rm /masurca.tar.gz
     
     cd /masurca || exit 1
-    ./install.sh || true    # this fails because of the copy command
+    DEST=/usr/local ./install.sh
+
+    # tidy up
+    rm -r /masurca
