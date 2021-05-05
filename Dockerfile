@@ -1,4 +1,4 @@
-FROM ubuntu:ubuntu:20.04
+FROM ubuntu:20.04
 
 LABEL SOFTWARE_NAME masurca 4.0.3
 LABEL MAINTAINER "Tom Harrop"
